@@ -3,6 +3,6 @@ A project that receives a **Postfix Expression** and transforms it to an **Infix
 
 ## Authors
 - Bruno Vedoveto Leandro (@bleandro)
-- Bianca Privati (@bfprivati)
+- Bianca Privati (@privati)
 - Diane Bernucio ()  
 - Ricardo Afonso ()
