@@ -31,3 +31,9 @@
 # Debug files
 *.dSYM/
 *.su
+
+# Text files
+*.txt
+
+# Backup files
+*.*~
