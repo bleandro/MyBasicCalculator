@@ -4,5 +4,5 @@ A project that receives a **Postfix Expression** and transforms it to an **Infix
 ## Authors
 - Bruno Vedoveto Leandro (@bleandro)
 - Bianca Privati (@privati)
-- Diane Bernucio ()  
+- Diane Bernucio (@dbernucio)  
 - Ricardo Afonso ()
