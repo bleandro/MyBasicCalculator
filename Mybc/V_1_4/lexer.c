@@ -193,6 +193,7 @@ int gettoken (FILE *tokenstream)
                 return DEC;
         }
 
+        /*
         if ( token = is_octal (tokenstream) ) {
                 return OCTAL;
         }
@@ -204,6 +205,7 @@ int gettoken (FILE *tokenstream)
         if ( token = is_float (tokenstream) ) {
                 return FLT;
         }
+        */
         token = getc (tokenstream);
 
         return token;
