@@ -58,7 +58,7 @@ int is_decimal(FILE *tape){
                 ungetc (lexeme[i], tape);
                 lexeme[i] = 0;
                 return DEC;
-                
+
         }
         ungetc (lexeme[i], tape);
         return 0;
@@ -84,7 +84,7 @@ int is_octal(FILE *tape){
                         ungetc (lexeme[i], tape);
                         lexeme[i] = 0;
                         return OCTAL;
-                        
+
                 } else {
                         ungetc (lexeme[i], tape);
                         ungetc (octpref, tape);
@@ -97,9 +97,8 @@ int is_octal(FILE *tape){
 
 int is_hexadecimal(FILE *tape){
         int hexzero = getc(tape);
-
         if(hexzero == '0') {
-                int i =0;
+                int i = 0;
                 lexeme[i] = hexzero;
                 i++;
                 int hexX = getc(tape);
@@ -109,27 +108,20 @@ int is_hexadecimal(FILE *tape){
                         i++;
                         lexeme[i] = getc(tape);
 
-                        if(isdigit(lexeme[i] = getc(tape)) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F') ) {
+                        if(isdigit(lexeme[i]) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F') ) {
                                 for(i++; isdigit(lexeme[i] = getc(tape)) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F' && i<= MAXID_SIZE ); i++);
-                                        /*if(i >= MAXID_SIZE){
-                                                int head = getc(tape);
-                                                while(isdigit(head = getc(tape)) || (toupper(head) >= 'A' && toupper(head) <= 'F'));
-                                                ungetc(head, tape);
-                                                return HEX;
-                                        } */
                                 ungetc(lexeme[i], tape);
                                 lexeme[i] = 0;
                                 return HEX;
-                                
                         }else{
-                                ungetc(hexzero, tape);
-                                ungetc(hexX, tape);
                                 ungetc(lexeme[i], tape);
+                                ungetc(hexX, tape);
+                                ungetc(hexzero, tape);
                         }
                 }
                 else{
-                        ungetc(hexzero, tape);
                         ungetc(hexX, tape);
+                        ungetc(hexzero, tape);
                         return 0;
                 }
         }
@@ -156,7 +148,7 @@ int is_float(FILE *tape){
                                 lexeme[i] = 0;
                                 return FLT;
                         }
-                } /*else if ()  //verificar se é exp */ 
+                } /*else if ()  //verificar se é exp */
         } else if ( lexeme[i] == '.'){
                 if( isdigit(lexeme[i])){ //condição aceitavel ( .digit )
                         for(i++; isdigit(lexeme[i] = getc(tape)) && i<= MAXID_SIZE; i++);
@@ -170,7 +162,7 @@ int is_float(FILE *tape){
                         ungetc(lexeme[i], tape);
                         lexeme[i] = 0;
                         return FLT;
-                        
+
                 }
         }
 
@@ -189,23 +181,22 @@ int gettoken (FILE *tokenstream)
                 return ID;
         }
 
-        if ( token = is_decimal (tokenstream) ) {
-                return DEC;
-        }
-
-        /*
-        if ( token = is_octal (tokenstream) ) {
-                return OCTAL;
-        }
-
         if ( token = is_hexadecimal (tokenstream) ) {
                 return HEX;
         }
 
-        if ( token = is_float (tokenstream) ) {
-                return FLT;
+        if ( token = is_octal (tokenstream) ) {
+                return OCTAL;
         }
-        */
+
+        if ( token = is_decimal (tokenstream) ) {
+                return DEC;
+        }
+
+        /*if ( token = is_float (tokenstream) ) {
+                return FLT;
+        } */
+
         token = getc (tokenstream);
 
         return token;

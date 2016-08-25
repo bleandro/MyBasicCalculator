@@ -100,10 +100,12 @@ void fact (void)
       }
       break;
 
+   case HEX:
    case DEC:
-      accumulator = atoi(lexeme);
+   case OCTAL:
+      accumulator = atof(lexeme);
 
-      /**/printf("%s ", lexeme )/**/; match (DEC);
+      /**/printf("%s ", lexeme )/**/; match (lookahead);
       break;
 
     default:
