@@ -9,6 +9,7 @@ extern FILE *source; // @ main.c
 extern void match (int); // @ local
 
 /* syntax names */
+void cmd  (void);
 void expr (void);
 void rest (void);
 void term (void);

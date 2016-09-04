@@ -34,6 +34,17 @@
  *
  **********************************************************************************/
 
+void cmd (void){
+  expr();
+
+  printf("\nResult: < %0.2f >\n\n", accumulator);
+
+  if (lookahead == ';') {
+    match(';');
+    cmd();
+  }
+}
+
 /***************************** LL(1) grammar emulation *****************************
  *
  *      source language        ||          object language
@@ -50,7 +61,7 @@ void expr (void)
       /**/neg = '-'/**/;
    }
 
-   term();/**/ if(neg){ printf("<+/-> "); }/**/
+   term();/**/ if(neg){ accumulator *= -1; printf("<+/-> "); }/**/
    while( op = addop() ) {
       /**/printf("<enter> ")/**/;
       push();
@@ -96,7 +107,7 @@ void fact (void)
       if(lookahead == '='){
          match('=');
          expr();
-         /**/printf("<store> ")/**/;
+         store(bkplexeme); /**/printf("<store> ")/**/;
       }
       break;
 

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <mybc.h>
 #include <interpreter.h>
+#include <parser.h>
 
 FILE *source;
 
@@ -28,8 +29,7 @@ main (int argc, char *argv[], char *envp[])
 
         lookahead = gettoken (source);
 
-        expr ();
-        printf("\nResult: < %0.2f >\n", accumulator);
+        cmd();
 
         exit (0);
 }

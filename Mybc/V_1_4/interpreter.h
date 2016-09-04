@@ -12,9 +12,9 @@ extern int sp;
 extern double 	stack[MAXSTACK_SIZE];
 extern double 	accumulator;
 
+extern void store(char*); 
 extern int lookup(char*);
 extern void allocateSymbol();
 extern void push();
 extern double pop();
-void enter(int);
 double operation(int op, double oprnd1, double oprnd2);

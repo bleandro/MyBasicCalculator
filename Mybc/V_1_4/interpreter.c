@@ -14,7 +14,14 @@ double	memtab[MAXSYMTAB_SIZE];
 
 int sp = -1;
 double 	stack[MAXSTACK_SIZE];
-double 	accumulator;
+double 	accumulator = 0;
+
+void store(char* storeSymbol){
+  int symbolMemAddress;
+  if ( symbolMemAddress = lookup(storeSymbol) >= 0 ){
+    memtab[symbolMemAddress] = accumulator;
+  }
+}
 
 int lookup(char* symbol){
   int i = 0;
@@ -65,10 +72,4 @@ double operation(int op, double oprnd1, double oprnd2){
   }
 
   return 0;
-}
-
-void enter(int op){
-  push();
-
-  //printf("accumulator %0.0f\n", accumulator);
 }
