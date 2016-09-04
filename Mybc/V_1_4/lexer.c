@@ -8,6 +8,7 @@
 
 // Dish = tape / Cake = lexeme //
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -133,6 +134,7 @@ int is_float(FILE *tape){
                 } //else if ()  //verificar se é exp
 
                 ungetc(lexeme[i], tape);
+                lexeme[i] = 0;
                 return DEC;
       }
 
@@ -140,7 +142,8 @@ int is_float(FILE *tape){
       if (lexeme[0] == '.'){
 
                 i = 1;
-                if( isdigit(lexeme[i] = getc(tape)) ){ //condição aceitavel ( .digit )
+                lexeme[1] = getc(tape);
+                if( isdigit(lexeme[1]) ){ //condição aceitavel ( .digit )
                         for(i++; isdigit(lexeme[i] = getc(tape)); i++);
                         ungetc(lexeme[i], tape);
                         lexeme[i] = 0;

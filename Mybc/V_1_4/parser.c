@@ -111,12 +111,13 @@ void fact (void)
       }
       break;
 
+   case FLT:
    case HEX:
    case DEC:
    case OCTAL:
       accumulator = atof(lexeme);
 
-      /**/printf("%s ", lexeme )/**/; match (lookahead);
+      /**/printf("%s ", lexeme)/**/; match (lookahead);
       break;
 
     default:
@@ -166,9 +167,9 @@ void match (int expected)
          if (expected == lookahead) {
                  lookahead = gettoken (source);
          } else {
-                 fprintf(stderr,"parser: token mismatch error. found # %d (%s) ",
+                 fprintf(stderr,"parser: token mismatch error. found # %d <%s> ",
                         lookahead, lexeme);
-                 fprintf(stderr,"whereas expected # %d (%c)\n",
+                 fprintf(stderr,"whereas expected # %d <%c>\n",
                         expected, expected);
                  exit (SYNTAX_ERR);
          }
