@@ -17,10 +17,10 @@ double 	stack[MAXSTACK_SIZE];
 double 	accumulator = 0;
 
 void store(char* storeSymbol){
-  int symbolMemAddress;
-  if ( symbolMemAddress = lookup(storeSymbol) >= 0 ){
-    memtab[symbolMemAddress] = accumulator;
-  }
+  int symbolMemAddress = lookup(storeSymbol);
+
+  if ( symbolMemAddress  >= 0 )
+     memtab[symbolMemAddress] = accumulator;
 }
 
 int lookup(char* symbol){

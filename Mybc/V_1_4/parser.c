@@ -35,6 +35,7 @@
  **********************************************************************************/
 
 void cmd (void){
+  accumulator = 0;
   expr();
 
   printf("\nResult: < %0.2f >\n\n", accumulator);
@@ -94,7 +95,8 @@ void fact (void)
 
    switch (lookahead) {
    case ID:
-      if( symbolMemAddress = lookup(lexeme) >= 0 ){
+      symbolMemAddress = lookup(lexeme);
+      if( symbolMemAddress >= 0 ){
          accumulator = memtab[symbolMemAddress];
       } else {
          allocateSymbol();
