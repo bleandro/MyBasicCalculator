@@ -48,13 +48,7 @@ int is_decimal(FILE *tape){
                         return DEC;
                 }
                 // [0-9]*
-                for( i++; isdigit (lexeme[i] = getc(tape)) && i<= MAXID_SIZE; i++ );
-                        /*if(i >= MAXID_SIZE){
-                                int head = getc(tape);
-                                while ( isdigit (head = getc(tape)) );
-                                ungetc (head, tape);
-                                return DEC;
-                        } */
+                for( i++; isdigit (lexeme[i] = getc(tape)); i++ );
                 ungetc (lexeme[i], tape);
                 lexeme[i] = 0;
                 return DEC;
@@ -74,13 +68,7 @@ int is_octal(FILE *tape){
                 lexeme[i] = getc(tape); //segundo elemento recebe o conteudo da fita
 
                 if ( lexeme[i] >= '0' && lexeme[i] <= '7') {
-                        for ( i++; (lexeme[i] = getc(tape)) >= '0' && lexeme[i] <= '7'&& i<= MAXID_SIZE; i++);
-                           /*     if(i >= MAXID_SIZE){
-                                        int head = getc(tape);
-                                        while ( (head = getc(tape)) >= '0' && head <= '7');
-                                        ungetc (head, tape);
-                                        return OCTAL;
-                                } */
+                        for ( i++; (lexeme[i] = getc(tape)) >= '0' && lexeme[i] <= '7'; i++);
                         ungetc (lexeme[i], tape);
                         lexeme[i] = 0;
                         return OCTAL;
@@ -109,7 +97,7 @@ int is_hexadecimal(FILE *tape){
                         lexeme[i] = getc(tape);
 
                         if(isdigit(lexeme[i]) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F') ) {
-                                for(i++; isdigit(lexeme[i] = getc(tape)) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F' && i<= MAXID_SIZE ); i++);
+                                for(i++; isdigit(lexeme[i] = getc(tape)) || (toupper(lexeme[i]) >= 'A' && toupper(lexeme[i]) <= 'F'); i++);
                                 ungetc(lexeme[i], tape);
                                 lexeme[i] = 0;
                                 return HEX;
@@ -130,45 +118,40 @@ int is_hexadecimal(FILE *tape){
 }
 
 int is_float(FILE *tape){
-        int i = 0;
 
-        lexeme[i] = getc(tape);
+      int i;
+      if( is_decimal(tape) ){ //inicia com dec
 
-        if( is_decimal(tape) ){ //inicia com dec
+                i = strlen(lexeme);
+                lexeme[i] = getc(tape);
+
                 if(lexeme[i] == '.'){
-                        for(i++; isdigit(lexeme[i] = getc(tape)); i++){
-                                if(i >= MAXID_SIZE){
-                                        int head = getc(tape);
-                                        while ( isdigit (head = getc(tape)) );
-                                        ungetc (head, tape);
-                                        return FLT;
-                                }
-                                //aqui verifica se é exp
-                                ungetc(lexeme[i], tape);
-                                lexeme[i] = 0;
-                                return FLT;
-                        }
-                } /*else if ()  //verificar se é exp */
-        } else if ( lexeme[i] == '.'){
-                if( isdigit(lexeme[i])){ //condição aceitavel ( .digit )
-                        for(i++; isdigit(lexeme[i] = getc(tape)) && i<= MAXID_SIZE; i++);
-                                /* if(i >= MAXID_SIZE){
-                                        int head = getc(tape);
-                                        while ( isdigit (head = getc(tape)) );
-                                        ungetc (head, tape);
-                                        return FLT;
-                                }*/
-
+                        for(i++; isdigit(lexeme[i] = getc(tape)); i++);
                         ungetc(lexeme[i], tape);
                         lexeme[i] = 0;
                         return FLT;
+                } //else if ()  //verificar se é exp
 
+                ungetc(lexeme[i], tape);
+                return DEC;
+      }
+
+      lexeme[0] = getc(tape);
+      if (lexeme[0] == '.'){
+
+                i = 1;
+                if( isdigit(lexeme[i] = getc(tape)) ){ //condição aceitavel ( .digit )
+                        for(i++; isdigit(lexeme[i] = getc(tape)); i++);
+                        ungetc(lexeme[i], tape);
+                        lexeme[i] = 0;
+                        return FLT;
                 }
-        }
 
-        ungetc(lexeme[i], tape);
-        lexeme[i] = 0;
-        return 0;
+                ungetc(lexeme[1], tape);
+      }
+      ungetc(lexeme[0], tape);
+
+      return 0;
 }
 
 int gettoken (FILE *tokenstream)
@@ -189,13 +172,13 @@ int gettoken (FILE *tokenstream)
                 return OCTAL;
         }
 
+        if ( token = is_float (tokenstream) ) {
+                return token;
+        }
+
         if ( token = is_decimal (tokenstream) ) {
                 return DEC;
         }
-
-        /*if ( token = is_float (tokenstream) ) {
-                return FLT;
-        } */
 
         token = getc (tokenstream);
 
