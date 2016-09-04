@@ -118,7 +118,7 @@ int is_hexadecimal(FILE *tape){
         return 0;
 }
 
-int is_float(FILE *tape){
+int is_decimal_float(FILE *tape){
 
       int i;
       if( is_decimal(tape) ){ //inicia com dec
@@ -142,8 +142,7 @@ int is_float(FILE *tape){
       if (lexeme[0] == '.'){
 
                 i = 1;
-                lexeme[1] = getc(tape);
-                if( isdigit(lexeme[1]) ){ //condição aceitavel ( .digit )
+                if( isdigit(lexeme[i] = getc(tape)) ){ //condição aceitavel ( .digit )
                         for(i++; isdigit(lexeme[i] = getc(tape)); i++);
                         ungetc(lexeme[i], tape);
                         lexeme[i] = 0;
@@ -155,6 +154,31 @@ int is_float(FILE *tape){
       ungetc(lexeme[0], tape);
 
       return 0;
+}
+
+int hasExponencial(FILE *tape){
+  int i = strlen(lexeme);
+  lexeme[i] = getc(tape);
+
+  if (toupper(lexeme[i]) == 'E'){
+    i++;
+    lexeme[i] = getc(tape);
+
+    if (isdigit(lexeme[i])) {
+      for(i++; isdigit(lexeme[i] = getc(tape)); i++);
+      ungetc(lexeme[i], tape);
+      lexeme[i] = 0;
+      return FLT;
+    }
+
+    ungetc(lexeme[i], tape);
+    i--;
+  }
+
+  ungetc(lexeme[i], tape);
+  lexeme[i] = 0;
+
+  return 0;
 }
 
 int gettoken (FILE *tokenstream)
@@ -175,12 +199,12 @@ int gettoken (FILE *tokenstream)
                 return OCTAL;
         }
 
-        if ( token = is_float (tokenstream) ) {
-                return token;
-        }
+        if ( token = is_decimal_float (tokenstream) ) {
+          if ( hasExponencial (tokenstream) )
+             return FLT;
 
-        if ( token = is_decimal (tokenstream) ) {
-                return DEC;
+
+          return token;
         }
 
         token = getc (tokenstream);
